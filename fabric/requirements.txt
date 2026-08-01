@@ -1,0 +1,18 @@
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+httpx==0.27.2
+pydantic==2.9.2
+pydantic-settings==2.5.2
+python-dotenv==1.0.1
+python-dateutil==2.9.0.post0
+
+# FHIR R5 (5.0.0) resource models — the transformation core
+fhir.resources==8.2.0
+fhir-core==1.1.8
+# Transitive, but MUST be pinned: fhir-core 1.1.8 imports `SLOTS` from
+# annotated_types, which 0.8.0 removed. Unpinned, pip resolves 0.8.0 and every
+# fhir.resources import fails at collection time.
+annotated-types==0.7.0
+
+# Kafka — Fabric publishes data-change events for hospilot-backend to consume
+aiokafka==0.11.0
