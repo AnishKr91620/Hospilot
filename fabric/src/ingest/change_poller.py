@@ -1,7 +1,7 @@
-"""Background poller — turns DB changes into Kafka events.
+"""change_api ingest — poll the DB's `$changed-resources` feed (INTEGRATION_MODE=change_api).
 
-Runs as a single asyncio task (started in main.py lifespan, only when Kafka is
-configured). Each cycle:
+The default ingest mode, and the one to read first. Runs as a single asyncio task
+(started in main.py lifespan, only when Kafka is configured). Each cycle:
 
   1. FHIR feed  — GET the DB's `$changed-resources` Bundle, map each changed
      resource to an event, publish, and acknowledge the feed ONLY if every event
@@ -14,23 +14,18 @@ Deletes are not published (the Redis consumer relies on TTLs — see the contrac
 """
 
 import asyncio
-import hashlib
-import json
 import logging
 
 from clients import fhir_client as fc
 from config import settings
-from ingest import kafka_publisher as kafka
+from ingest.content_hash import content_hash
+from messaging import kafka_publisher as kafka
 from service import sync_map
 
 logger = logging.getLogger("poller")
 
 # REST diff state: (entity, row_id) -> content hash of the last published row.
 _seen: dict[tuple[str, str], str] = {}
-
-
-def _hash(row: dict) -> str:
-    return hashlib.sha1(json.dumps(row, sort_keys=True, default=str).encode()).hexdigest()
 
 
 async def _publish_all(events: list[tuple[str, str, dict]]) -> bool:
@@ -105,7 +100,7 @@ async def _poll_rest() -> None:
             rid = str(row.get("id") or "")
             if not rid:
                 continue
-            h = _hash(row)
+            h = content_hash(row)
             if _seen.get((entity, rid)) == h:
                 continue
             try:

@@ -7,6 +7,13 @@ membership from the bed→ward graph, simple aggregates).
 
 Note: the DB's default page size is 50, so list searches pass _count=200 (the
 server cap) to avoid silent truncation.
+
+Delivery paths (see fabric/README.md for the full table): the core clinical entities
+— bed, admission, visit, task, lab_order, lab_result — are BOTH streamed and served
+live, and that is not redundancy. Kafka/Redis holds per-record state (`bed:{id}`),
+while the routes here answer the list, filter and computed questions Redis keys can't:
+"which ICU beds are dirty", "who is discharge-eligible", ER pressure. Same entity, two
+different questions.
 """
 
 from clients import fhir_client as fc

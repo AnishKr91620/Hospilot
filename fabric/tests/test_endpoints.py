@@ -12,7 +12,7 @@ from fhir.resources.location import Location
 
 from clients import fhir_client, rest_client
 from fhirgw.mappers import encounter as enc_map, observation as obs_map
-from api.normalized import router
+from api.runtime import router
 
 
 def _strip(model):

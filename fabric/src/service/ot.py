@@ -1,3 +1,16 @@
+"""Operating-theatre reads — thin wrappers over the DB's plain-REST /ot API.
+
+Responses are already the dict shapes the OT agents want, so Fabric passes them
+through untransformed (no FHIR involved).
+
+Delivery paths (see fabric/README.md for the full table):
+  • streamed → Kafka → backend Redis:  rooms, room_status, surgery_schedule, surgeries
+      Registered in sync_map.REST_ENTITIES as ot_room / ot_room_status / ot_schedule /
+      ot_surgery. Agents read the steady state from Redis, so these have no HTTP route.
+  • runtime pass-through:  equipment_usage
+      Not cached; served live by GET /ot/equipment-usage.
+"""
+
 from clients import rest_client as rc
 from config import settings
 

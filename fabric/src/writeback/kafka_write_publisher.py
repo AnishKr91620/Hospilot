@@ -23,7 +23,7 @@ import logging
 
 from config import settings
 from fhirgw.bundle import build_snapshot_bundle, resolve_changes
-from ingest import kafka_publisher as kafka
+from messaging import kafka_publisher as kafka
 from service.change_store import get_change_store, now_iso
 
 logger = logging.getLogger("kafka_write")

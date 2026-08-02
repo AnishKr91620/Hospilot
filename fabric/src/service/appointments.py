@@ -1,3 +1,18 @@
+"""Appointment + doctor-slot reads and writes over the DB's plain-REST API.
+
+Reads pass through untransformed. Writes do NOT go upstream directly: create() and
+book_slot() enqueue a PendingChange, which leaves via whichever write leg the mode
+selects (HTTP $pending-changes pull, or the Kafka push in writeback/).
+
+Delivery paths (see fabric/README.md for the full table):
+  • streamed → Kafka → backend Redis:  list_all, slots
+      Registered in sync_map.REST_ENTITIES as `appointment` / `doctor_slot`. Agents get
+      the steady state from Redis — but unlike OT these keep their HTTP routes, because
+      agents also need filtered lookups (by patient, provider, date, specialization)
+      that Redis keys can't answer.
+  • write path:  create, book_slot
+"""
+
 from clients import rest_client as rc
 from config import settings
 from service.change_store import PendingChange, get_change_store, new_change_id, now_iso

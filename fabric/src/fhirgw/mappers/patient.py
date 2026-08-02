@@ -3,12 +3,15 @@
 Hospilot has no patient table; PHI lives in CarerOS. The FHIR Patient is a
 referenceable anchor carrying only the opaque token, tagged PSEUDED (pseudonymized).
 
-NOT LIVE in fabric/: no caller in src/ (only the also-dead views.py references
-this module). Fabric's live inbound path, transform.py's patient(), reads full
-demographics directly off the FHIR Patient CarerOS sends — it does not use this
-mapper or its pseudonymization. The pseudonymized-Patient behavior described
-here is real, but only in agentic-framework's separate copy of fhirgw, where
-patient_token_to_patient() backs the live GET /fhir/Patient endpoint.
+Shared FHIR mapping, exercised by tests rather than by a Fabric request path. No
+module in src/ calls it: Fabric's inbound path (transform.py's patient()) reads
+demographics straight off the FHIR Patient the DB sends. The pseudonymization here
+is what backs the live GET /fhir/Patient in hospilot-backend's copy of fhirgw, and
+tests/test_fhir_mappers.py::test_patient_has_no_phi pins the guarantee — that test
+is the reason this module stays.
+
+Contrast with Fabric's one PHI-carrying path: transform.py's patient() returns full
+demographics for /patients*. Everything else Fabric serves is token-only.
 """
 
 from fhir.resources.patient import Patient

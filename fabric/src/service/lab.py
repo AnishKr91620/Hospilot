@@ -2,16 +2,16 @@
 
 Two data access patterns:
 
-  • FHIR-backed (Redis)  — lab_samples (Specimen) + lab_analyzers (Device).
-    Fabric fetches from the DB's FHIR API, transforms, and these are also
-    published to Kafka via the change feed so the backend can warm Redis.
+  • FHIR-backed, streamed — lab_samples (Specimen) + lab_analyzers (Device).
+    Fabric fetches from the DB's FHIR API and transforms; the change feed also
+    publishes them to Kafka, so hospilot-backend caches them and agents read Redis.
 
   • REST pass-through (agent-direct) — qc_logs, reflex_rules, validation_rules,
     capacity_history, critical_escalations. Fabric proxies the DB's plain-REST
-    /api/lab/* endpoints with no transformation.
+    /api/lab/* endpoints with no transformation. Not cached anywhere.
 
-lab_orders and lab_results are served by clinical.py (FHIR Observation /
-ServiceRequest) and are already Redis-backed via the existing change feed.
+lab_orders and lab_results are served by clinical.py (FHIR ServiceRequest /
+Observation) and are streamed via the same change feed.
 """
 
 import logging

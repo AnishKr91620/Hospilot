@@ -37,15 +37,14 @@ async def require_fabric_auth(request: Request) -> None:
         raise HTTPException(status_code=401, detail="Missing or invalid Fabric API key")
 
 
-from api.normalized import router as normalized_router
-from api.agents import router as agents_router
-from api.fhir import router as fhir_router
+from api.changes import router as changes_router
+from api.runtime import router as runtime_router
 from api.sync import router as sync_router
-from ingest import kafka_publisher as kafka
-from ingest import kafka_consumer
-from ingest import kafka_write_publisher
-from ingest import poller
+from ingest import change_poller
 from ingest import diff_poller
+from ingest import kafka_consumer
+from messaging import kafka_publisher as kafka
+from writeback import kafka_write_publisher
 
 
 @asynccontextmanager
@@ -69,9 +68,9 @@ async def lifespan(app: FastAPI):
             poll_task = asyncio.create_task(diff_poller.run())
         else:
             logger.info("✓ ingest mode = CHANGE_API ($changed-resources feed)")
-            poll_task = asyncio.create_task(poller.run())
+            poll_task = asyncio.create_task(change_poller.run())
         # Write direction: kafka mode PUSHES proposals; change_api/polling keep the
-        # HTTP $pending-changes pull (api/fhir.py stays active in those modes).
+        # HTTP $pending-changes pull (api/changes/ stays active in those modes).
         if settings.kafka_mode:
             logger.info("✓ write mode = KAFKA → %s", settings.kafka_write_topic)
             write_task = asyncio.create_task(kafka_write_publisher.run())
@@ -112,10 +111,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(normalized_router, dependencies=[Depends(require_fabric_auth)])
-app.include_router(agents_router, dependencies=[Depends(require_fabric_auth)])
-app.include_router(fhir_router, dependencies=[Depends(require_fabric_auth)])
-app.include_router(sync_router, dependencies=[Depends(require_fabric_auth)])
+# Three API surfaces, split by request lifecycle (see each package's docstring):
+app.include_router(runtime_router, dependencies=[Depends(require_fabric_auth)])   # live agent queries
+app.include_router(changes_router, dependencies=[Depends(require_fabric_auth)])   # DB-driven write handshake
+app.include_router(sync_router,    dependencies=[Depends(require_fabric_auth)])   # one-time bulk seeding
 
 
 @app.get("/health")

@@ -1,3 +1,11 @@
+"""Ambulance fleet reads — thin wrapper over the DB's plain-REST /ambulance API.
+
+Delivery path: STREAMED only. fleet() is registered in sync_map.REST_ENTITIES as
+`ambulance`, so the diff poller publishes changes to Kafka and hospilot-backend
+caches them in Redis; agents read from there. There is deliberately no HTTP route
+for it — Fabric exposes no ambulance endpoint at all.
+"""
+
 from clients import rest_client as rc
 from config import settings
 

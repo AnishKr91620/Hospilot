@@ -20,7 +20,7 @@ from aiokafka import AIOKafkaConsumer
 
 from clients import fhir_client as fc
 from config import settings
-from ingest import kafka_publisher as kafka
+from messaging import kafka_publisher as kafka
 from service import transform as tx
 
 logger = logging.getLogger("kafka_consumer")

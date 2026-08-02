@@ -24,31 +24,31 @@ _LEVEL_COLOR = {
     "CRITICAL": _B + _RD,
 }
 
-# Map Python logger names to short display names (max 9 chars)
+# Map Python logger names to short display names (max 9 chars). Every entry below is
+# a logger Fabric actually creates; unmapped names fall back to name[:9].upper().
 _NAME_MAP = {
-    "guardrail":                            "GUARDRAIL",
-    "planner":                              "PLANNER  ",
-    "ranking":                              "RANKING  ",
-    "sessions":                             "SESSIONS ",
-    "approvals":                            "APPROVALS",
-    "kafka":                                "KAFKA    ",
-    "kafka.consumers.orchestrator":         "ORCHESTR.",
-    "kafka.consumers.bed_agent":            "BED_AGENT",
-    "poller.carerOS_poller":                "POLLER   ",
-    "db.hasura":                            "HASURA   ",
-    "cache.redis":                          "REDIS    ",
+    # ingest + transport
+    "poller":                               "POLLER   ",   # change_poller, diff_poller, sync_map
+    "kafka":                                "KAFKA    ",   # messaging.kafka_publisher
+    "kafka_consumer":                       "KAFKA_CON",
+    "kafka_write":                           "KAFKA_WR ",  # writeback.kafka_write_publisher
+    # request-serving APIs
+    "normalized":                           "NORMALIZD",
+    "fhir_api":                             "FHIR_API ",
+    "sync_api":                             "SYNC_API ",
+    # upstream clients
+    "fhir_client":                          "FHIR_CLNT",
+    "rest_client":                          "REST_CLNT",
+    "sync_client":                          "SYNC_CLNT",
+    # service layer
+    "financial":                            "FINANCIAL",
+    "lab_service":                          "LAB_SVC  ",
+    "pharmacy_service":                     "PHARM_SVC",
+    "bundle":                               "BUNDLE   ",
+    # runtime
     "__main__":                             "APP      ",
     "uvicorn":                              "UVICORN  ",
     "uvicorn.error":                        "UVICORN  ",
-    "temporal.workflow._condition_check":   "TASKGATE ",
-    "temporal.workflow.bed_agent_workflow": "BED_WF   ",
-    "temporal.workflow.er_agent_workflow":  "ER_WF    ",
-    "temporal.workflow.icu_agent_workflow": "ICU_WF   ",
-    "temporal.workflow.discharge_agent_workflow": "DISCH_WF ",
-    "temporal.workflow.revenue_agent_workflow":   "REV_WF   ",
-    "temporal.activities.bed_agent_activities":   "BED_ACT  ",
-    "temporal.activities.bed_activities":         "BED_ACT  ",
-    "temporal.activities.er_activities":          "ER_ACT   ",
 }
 
 

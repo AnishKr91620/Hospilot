@@ -401,7 +401,14 @@ def patient_token(pat) -> str | None:
 
 
 def patient(pat) -> dict:
-    """Full patient dict (demographics) — matches db.hasura.get_patient_names rows."""
+    """Full patient dict (demographics) — matches db.hasura.get_patient_names rows.
+
+    ⚠ PHI — this is Fabric's ONLY function that returns patient-identifying data
+    (name, mobile, UHID). It backs /patients, /patients/{token} and
+    /patients/by-mobile; every other shape Fabric serves carries the opaque
+    patient_token alone. Treat callers of this as the PHI boundary: never log the
+    result, and keep FABRIC_API_KEY set wherever these routes are reachable.
+    """
     names = getattr(pat, "name", None) or []
     name = names[0] if names else None
     given = " ".join(getattr(name, "given", None) or []) if name else None
@@ -455,7 +462,7 @@ def lab_order(sr) -> dict:
     }
 
 
-# ─── lab samples / analyzers (Redis-backed) ─────────────────────────────────────
+# ─── lab samples / analyzers (streamed; backend caches them in Redis) ───────────
 def lab_sample(specimen) -> dict:
     idents = getattr(specimen, "identifier", None) or []
     barcode = getattr(idents[0], "value", None) if idents else None
@@ -500,7 +507,7 @@ def lab_analyzer(device) -> dict:
     }
 
 
-# ─── pharmacy orders / inventory (Redis-backed) ──────────────────────────────────
+# ─── pharmacy orders / inventory (streamed; backend caches them in Redis) ────────
 def pharmacy_order(med_req) -> dict:
     med = getattr(med_req, "medication", None)          # R5 CodeableReference
     concept = getattr(med, "concept", None) if med else None
