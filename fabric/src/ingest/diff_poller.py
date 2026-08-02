@@ -1,6 +1,6 @@
 """Polling-mode ingest — field-level diff over the DB's per-resource APIs.
 
-The alternative to the change_api poller (poller.py). Used when the DB exposes NO
+The alternative to the change_api poller (change_poller.py). Used when the DB exposes NO
 `$changed-resources` change feed: Fabric polls each per-resource FHIR-compliant API
 itself (the same reads it serves, in service/clinical.py), remembers the last value of
 each mutable column per record, and publishes only WHAT CHANGED:
@@ -26,9 +26,9 @@ from typing import Awaitable, Callable
 
 from config import settings
 from service import clinical, initial_sync, sync_map
-from ingest import kafka_publisher as kafka
+from ingest.content_hash import content_hash
+from messaging import kafka_publisher as kafka
 from service import transform as tx
-from ingest.poller import _hash       # reuse the REST content-hash helper
 
 logger = logging.getLogger("poller")
 
@@ -131,7 +131,7 @@ def registry() -> list[DiffEntity]:
 # ─── diff + publish ────────────────────────────────────────────────────────────────
 def _project(e: DiffEntity, row: dict) -> dict:
     if e.mutable_cols is None:
-        return {"__hash__": _hash(row)}
+        return {"__hash__": content_hash(row)}
     return {c: row.get(c) for c in e.mutable_cols}
 
 

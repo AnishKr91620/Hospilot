@@ -1,9 +1,10 @@
 """department <-> FHIR Organization.
 
-NOT LIVE in fabric/: no caller in src/ constructs an Organization via to_fhir()
-or source_organization() (bundle.py writes FHIRPath Patch ops directly, without
-building resources). transform.py uses only to_internal() from this module, on
-the inbound path.
+Shared FHIR mapping, exercised by tests rather than by a Fabric request path. No
+module in src/ calls it: bundle.py writes FHIRPath Patch ops directly instead of
+building resources, and the inbound department transform is transform.py's
+department(), not this module's to_internal(). Kept for its round-trip test
+coverage and for hospilot-backend's copy of fhirgw, which does build Organizations.
 """
 
 from fhir.resources.organization import Organization

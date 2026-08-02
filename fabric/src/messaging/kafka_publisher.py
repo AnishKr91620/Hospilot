@@ -1,13 +1,20 @@
-"""Kafka producer for publishing data-change events to hospilot-backend.
+"""The one Kafka producer — every message Fabric publishes goes through here.
 
-Each event is `{entity, id, data}` published to topic `{prefix}.{entity}` and keyed
-by the record id (so per-record ordering is preserved). The `data` field is the full
-current row in Fabric's normalized shape — hospilot-backend consumes it and upserts
-Redis directly (see docs KAFKA_EVENT_CONTRACT).
+A single connection shared by three publishes in two directions, which is why this
+is transport infrastructure rather than part of ingest/ or writeback/:
+
+  publish()                → {prefix}.{entity}       data changes   → hospilot-backend
+  publish_ack()            → hospilot.sync.ack       write results  → hospilot-backend
+  publish_write_proposal() → hospilot.sync.write     approved writes → the DB
+
+Everything is keyed by record id, so per-record ordering is preserved (one partition
+per record). Payload shapes are the wire contract with hospilot-backend — see docs
+KAFKA_EVENT_CONTRACT before changing any of them.
 
 Disabled (no-op) when KAFKA_BOOTSTRAP_SERVERS is unset, so Fabric runs without Kafka
-in dev. `publish()` raises on delivery failure; the poller uses that to decide whether
-to acknowledge the DB change feed (at-least-once).
+in dev — the REST APIs still serve, only the change stream is off. `publish()` raises
+on delivery failure, which is how change_poller decides whether it may acknowledge the
+DB's change feed (at-least-once: no ack unless every event landed).
 """
 
 import json

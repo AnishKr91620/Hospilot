@@ -253,7 +253,7 @@ def build_snapshot_bundle(
     `include_approval` controls the non-standard `entry.approvalNeeded` key: the HTTP
     pull path keeps it (True) for the DB's existing applier; the kafka write leg passes
     False so the emitted Bundle is spec-clean and approval rides in the message envelope
-    instead (see ingest.kafka_write_publisher)."""
+    instead (see writeback.kafka_write_publisher)."""
     entries: list[dict] = []
     for change in changes:
         if change.http_method == "POST":

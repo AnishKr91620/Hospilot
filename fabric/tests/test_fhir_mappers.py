@@ -1,10 +1,13 @@
 """
 Round-trip identity + FHIR validity for the pilot mappers.
 
-The agent contract is preserved because `to_internal(to_fhir(x)) == x` for the
-exact internal projection shapes the poller produces (see src/poller/carerOS_poller.py
-_map_* and src/db/hasura.py read-backs). Validity is checked by re-parsing each
-resource's serialized JSON through its fhir.resources model.
+The agent contract is preserved because `to_internal(to_fhir(x)) == x` for the exact
+internal projection shapes Fabric serves (src/service/transform.py). Validity is
+checked by re-parsing each resource's serialized JSON through its fhir.resources model.
+
+Covers the location, encounter and observation mappers that transform.py uses live,
+plus patient and organization — shared mapping logic with no Fabric caller, kept for
+this coverage (notably test_patient_has_no_phi).
 """
 
 import json

@@ -10,7 +10,7 @@ import json
 import pytest
 
 from ingest import diff_poller as dp
-from ingest import kafka_publisher
+from messaging import kafka_publisher
 from service import transform as tx
 
 _REAL_PUBLISH = kafka_publisher.publish      # captured before the autouse fixture patches it
