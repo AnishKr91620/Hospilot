@@ -12,7 +12,7 @@ from fhir.resources.location import Location
 
 from clients import fhir_client, rest_client
 from fhirgw.mappers import encounter as enc_map, observation as obs_map
-from api.runtime import router
+from runtime import router
 
 
 def _strip(model):
@@ -139,7 +139,7 @@ def test_flag_critical_write(client):
     # Writes no longer PATCH directly — they queue a PendingChange for the DB to pull.
     # The bare reading uuid is recorded as record_id; resource_id resolves later.
     import asyncio
-    from service.change_store import get_change_store
+    from writeback.change_store import get_change_store
     store = get_change_store()
     store._pending.clear(); store._inflight = None
     r = client.post("/vitals/vit-1/critical")
@@ -153,7 +153,7 @@ def test_flag_critical_write(client):
 def test_set_triage_write(client):
     # bare visit uuid in -> queued PendingChange targeting the em-prefixed Encounter
     import asyncio
-    from service.change_store import get_change_store
+    from writeback.change_store import get_change_store
     store = get_change_store()
     store._pending.clear(); store._inflight = None
     r = client.post("/visits/v-9/triage", json={"score": 2})

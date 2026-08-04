@@ -16,7 +16,7 @@ from datetime import datetime, timezone
 
 from clients import fhir_client as fc
 from fhirgw import extensions as X, terminology as T
-from service.change_store import PendingChange
+from writeback.change_store import PendingChange
 
 logger = logging.getLogger("bundle")
 
