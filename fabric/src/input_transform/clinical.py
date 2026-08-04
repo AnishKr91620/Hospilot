@@ -17,7 +17,7 @@ different questions.
 """
 
 from clients import fhir_client as fc
-from service import transform as tx
+from input_transform import transform as tx
 
 PAGE = 200   # DB caps _count at 200
 

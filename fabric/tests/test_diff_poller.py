@@ -12,7 +12,7 @@ import pytest
 from ingest import diff_poller as dp
 from messaging import data_events as kafka_publisher
 from messaging import producer as kafka_producer
-from service import transform as tx
+from input_transform import transform as tx
 
 _REAL_PUBLISH = kafka_publisher.publish      # captured before the autouse fixture patches it
 

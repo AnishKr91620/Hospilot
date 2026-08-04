@@ -175,7 +175,7 @@ def test_financial_upstream_paths(monkeypatch):
     """
     import asyncio
 
-    from service import financial
+    from input_transform import financial
 
     seen = []
 
@@ -224,7 +224,7 @@ def test_dirty_beds_excludes_wards(monkeypatch):
     and the SLA evaluator then tracked wards as beds stuck in cleaning forever.
     """
     import asyncio
-    from service import clinical
+    from input_transform import clinical
 
     dirty_bed = _suspended(_bed("B9", "ICU-09", "K"))       # a genuinely dirty ICU bed
     suspended_wards = [_suspended(_ward("W1", "ICU")), _suspended(_ward("W2", "Cardiology"))]

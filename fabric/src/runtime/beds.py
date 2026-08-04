@@ -12,7 +12,7 @@ from pydantic import BaseModel
 
 from runtime._common import _or_404
 from clients import fhir_client as fc
-from service import clinical, transform as tx
+from input_transform import clinical, transform as tx
 from writeback import proposals
 
 router = APIRouter()

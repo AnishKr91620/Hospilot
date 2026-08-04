@@ -3,12 +3,12 @@
 pharmacy_order and pharmacy_inventory are streamed (MedicationRequest /
 InventoryItem via the change feed), so agents get live counts from the backend's
 internal DB. Everything here is the full-list and rules-table side that a per-record
-lookup can't hold — see service/pharmacy.py.
+lookup can't hold — see input_transform/pharmacy.py.
 """
 
 from fastapi import APIRouter, Query
 
-from service import pharmacy as pharmacy_svc
+from input_transform import pharmacy as pharmacy_svc
 
 router = APIRouter()
 

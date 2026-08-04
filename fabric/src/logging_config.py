@@ -40,7 +40,7 @@ _NAME_MAP = {
     "fhir_client":                          "FHIR_CLNT",
     "rest_client":                          "REST_CLNT",
     "sync_client":                          "SYNC_CLNT",
-    # service layer
+    # read layer
     "financial":                            "FINANCIAL",
     "lab_service":                          "LAB_SVC  ",
     "pharmacy_service":                     "PHARM_SVC",

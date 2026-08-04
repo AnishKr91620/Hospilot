@@ -1,6 +1,6 @@
 """Lab orders, results, and the lab-operations tables.
 
-Two upstreams behind one prefix (see service/lab.py):
+Two upstreams behind one prefix (see input_transform/lab.py):
   • FHIR, streamed — orders (ServiceRequest), results (Observation), samples
     (Specimen), analyzers (Device)
   • plain REST, never cached — qc logs, reflex/validation rules, capacity,
@@ -9,7 +9,7 @@ Two upstreams behind one prefix (see service/lab.py):
 
 from fastapi import APIRouter, Query
 
-from service import clinical, lab as lab_svc
+from input_transform import clinical, lab as lab_svc
 
 router = APIRouter()
 

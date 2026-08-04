@@ -12,7 +12,7 @@ Vocabulary and mapping only — no I/O, no transport, no queue:
   narrative.py     — human-readable <div> text for generated resources
   mappers/         — bidirectional internal-dict <-> canonical FHIR
 
-Consumers: service/transform.py (terminology, extensions + the location, encounter and
+Consumers: input_transform/transform.py (terminology, extensions + the location, encounter and
 observation mappers) and writeback/bundle.py, which assembles transaction Bundles from
 these pieces. Bundle assembly used to live here but is write-leg-specific, so it moved
 to writeback/ with the rest of that pipeline.

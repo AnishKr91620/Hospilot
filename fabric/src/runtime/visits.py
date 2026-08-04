@@ -9,7 +9,7 @@ Static sub-paths are declared before `/{visit_id}` so they aren't shadowed.
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from service import clinical
+from input_transform import clinical
 from writeback import proposals
 
 router = APIRouter()

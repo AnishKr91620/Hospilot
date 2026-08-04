@@ -19,15 +19,15 @@ Entities with no Kafka topic (Patient, Organization, Composition) are skipped.
 import logging
 
 from clients import fhir_client as fc
-from service import ambulance as amb_svc
-from service import appointments as appt_svc
-from service import ot as ot_svc
-from service import transform as tx
-from service import lab as lab_svc
-from service import pharmacy as pharmacy_svc
-from service import staff as staff_svc
-from service import ventilator as vent_svc
-from service import financial as fin_svc
+from input_transform import ambulance as amb_svc
+from input_transform import appointments as appt_svc
+from input_transform import ot as ot_svc
+from input_transform import transform as tx
+from input_transform import lab as lab_svc
+from input_transform import pharmacy as pharmacy_svc
+from input_transform import staff as staff_svc
+from input_transform import ventilator as vent_svc
+from input_transform import financial as fin_svc
 
 logger = logging.getLogger("poller")
 

@@ -5,7 +5,7 @@ and single reads return the object. All use the same bearer key as the financial
 (`settings.financial_key`). Fabric passes the JSON straight through — it's already the
 dict shape the agents want, so no FHIR transform is involved.
 
-Callers pass the upstream `base_url` per call (see service/financial.py, service/ot.py, …).
+Callers pass the upstream `base_url` per call (see input_transform/financial.py, input_transform/ot.py, …).
 The initial-sync API uses a different (keyset-pagination) envelope and lives in
 sync_client.py, which reuses `auth_headers` from here.
 """

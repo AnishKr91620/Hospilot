@@ -1,13 +1,13 @@
 """Revenue-cycle reads — invoices, claims, payments, contracts, reconciliation.
 
 Passed through from the DB's plain-REST financial API with no FHIR involved (see
-service/financial.py). Of these, only invoices and claims are streamed to the
+input_transform/financial.py). Of these, only invoices and claims are streamed to the
 backend; the other eleven are read live on every call.
 """
 
 from fastapi import APIRouter
 
-from service import financial
+from input_transform import financial
 
 router = APIRouter()
 
