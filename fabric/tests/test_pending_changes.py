@@ -11,8 +11,8 @@ import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-from messaging import kafka_publisher
-from service.change_store import (
+from messaging import data_events as kafka_publisher
+from writeback.change_store import (
     ChangeStore,
     PendingChange,
     SnapshotError,
@@ -129,8 +129,8 @@ def client(monkeypatch):
 
     monkeypatch.setattr(kafka_publisher, "publish_ack", _capture)
 
-    from api.changes import router as changes_router
-    from api.runtime import router as runtime_router
+    from writeback.http import router as changes_router
+    from runtime import router as runtime_router
     app = FastAPI()
     app.include_router(runtime_router)
     app.include_router(changes_router)

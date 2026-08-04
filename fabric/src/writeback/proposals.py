@@ -7,7 +7,7 @@ POST /fhir/Bundle/$pending-changes/$acknowledge, after which the queue is cleare
 """
 
 from fhirgw import terminology as T
-from service.change_store import PendingChange, get_change_store, new_change_id, now_iso
+from writeback.change_store import PendingChange, get_change_store, new_change_id, now_iso
 
 # Logical Kafka entity each change_type acknowledges against (drives the ack event's
 # `entity`). Mirrors the entities the read-direction feed publishes, so the backend can
