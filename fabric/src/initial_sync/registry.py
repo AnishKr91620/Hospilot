@@ -60,7 +60,7 @@ async def page(
     """Fetch one keyset page for `table`, forwarding the DB's envelope as-is.
 
     Deliberately one page, not all of them: the backend walks the cursor itself so it can
-    checkpoint between pages. Callers that DO want every row (service/staff, ventilator)
+    checkpoint between pages. Callers that DO want every row (input_transform/{staff,ventilator})
     use clients.sync_client.fetch_all instead.
     """
     return await sync_client.fetch_page(

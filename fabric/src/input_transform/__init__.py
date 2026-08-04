@@ -1,4 +1,4 @@
-"""Service layer — every read here goes UPSTREAM to the hospital's HIS.
+"""Inbound reads + normalization — every read here goes UPSTREAM to the hospital's HIS.
 
 Fabric owns no data and has no database. It is a client of three upstream APIs, and
 which one a module uses is the only structural distinction in this package:
@@ -6,7 +6,11 @@ which one a module uses is the only structural distinction in this package:
   clients.fhir_client   canonical FHIR R5 (clinical)   → clinical, lab
   clients.rest_client   plain REST (financial, OT,     → financial, ot, ambulance,
                         ambulance, appointments)          appointments, pharmacy, lab
-  clients.sync_client   keyset bulk sync               → staff, ventilator (+ sync/, ingest/)
+  clients.sync_client   keyset bulk sync               → staff, ventilator (+ initial_sync/, ingest/)
+
+Note the name says "input", not "FHIR": only clinical.py and lab.py read FHIR. The
+financial, OT, ambulance, appointments and pharmacy modules read plain REST with no
+FHIR involved, and staff/ventilator pass raw table rows straight through.
 
 Pure transform, no upstream: transform.py — FHIR R5 resources → the normalized dicts
 every route and poller returns.

@@ -1,4 +1,4 @@
-"""Pharmacy service layer.
+"""Pharmacy reads.
 
 All pharmacy data is REST pass-through: Fabric proxies the DB's plain-REST
 /api/pharmacy/* endpoints with no transformation.

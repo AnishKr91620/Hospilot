@@ -149,7 +149,7 @@ from Kafka; if it is asking Fabric to *find* records, it's an API route.
 Fabric is pseudonymous nearly everywhere. Records carry an opaque `patient_token`; there is
 no patient table here and no PHI at rest.
 
-The exception is `runtime/patients.py`, backed by `service/transform.py::patient()`,
+The exception is `runtime/patients.py`, backed by `input_transform/transform.py::patient()`,
 which resolves a token to real demographics (name, mobile, UHID) for `/patients`,
 `/patients/{token}` and `/patients/by-mobile`. Treat that module as the PHI boundary:
 
@@ -186,7 +186,7 @@ src/
 ├── initial_sync/  One-time bulk dumps so the backend can seed its internal DB.
 │                    api (endpoints) · registry (which tables are syncable)
 │
-├── service/       Upstream reads + transforms.  Owns no data, no writes.
+├── input_transform/  Upstream reads + FHIR/REST -> normalized dicts.  Owns no data.
 ├── clients/       HTTP out to the three upstream APIs (fhir, rest, sync)
 ├── fhirgw/        FHIR R5 vocabulary + mappers.  No I/O.
 ├── config.py      all settings (see .env.example)
@@ -202,7 +202,7 @@ Two naming notes that save confusion:
   shadow the `fhir.resources` library.
 
 Each package's `__init__.py` documents its own scope and dependencies. Start with
-`writeback/__init__.py`, which diagrams the full write pipeline, and `service/__init__.py`.
+`writeback/__init__.py`, which diagrams the full write pipeline, and `input_transform/__init__.py`.
 
 ---
 

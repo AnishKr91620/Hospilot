@@ -6,7 +6,7 @@ serve the filtered and counted views.
 
 from fastapi import APIRouter, Query
 
-from service import clinical
+from input_transform import clinical
 
 router = APIRouter()
 

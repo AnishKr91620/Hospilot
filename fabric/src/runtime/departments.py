@@ -7,7 +7,7 @@ read them live.
 
 from fastapi import APIRouter
 
-from service import clinical
+from input_transform import clinical
 
 router = APIRouter()
 

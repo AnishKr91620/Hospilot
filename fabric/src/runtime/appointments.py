@@ -5,14 +5,14 @@ These routes stay because agents need filtered queries (by patient, provider,
 department, status, date, specialization) that a per-record lookup can't answer.
 
 Writes queue a PendingChange rather than calling the DB directly — see
-service/appointments.py.
+input_transform/appointments.py.
 """
 
 from typing import Optional
 
 from fastapi import APIRouter, Query
 
-from service import appointments as appt_svc
+from input_transform import appointments as appt_svc
 
 router = APIRouter()
 

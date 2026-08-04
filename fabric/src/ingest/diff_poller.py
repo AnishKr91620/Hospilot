@@ -2,7 +2,7 @@
 
 The alternative to the change_api poller (change_poller.py). Used when the DB exposes NO
 `$changed-resources` change feed: Fabric polls each per-resource FHIR-compliant API
-itself (the same reads it serves, in service/clinical.py), remembers the last value of
+itself (the same reads it serves, in input_transform/clinical.py), remembers the last value of
 each mutable column per record, and publishes only WHAT CHANGED:
 
   • new record         → full row,  operation="upsert"  (same shape as change_api)
@@ -27,10 +27,10 @@ from typing import Awaitable, Callable
 from config import settings
 from clients import sync_client
 from ingest import topic_map
-from service import clinical
+from input_transform import clinical
 from ingest.content_hash import content_hash
 from messaging import data_events as kafka
-from service import transform as tx
+from input_transform import transform as tx
 
 logger = logging.getLogger("poller")
 

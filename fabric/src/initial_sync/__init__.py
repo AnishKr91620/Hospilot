@@ -11,7 +11,7 @@ Distinct from runtime/ in caller and cadence: the backend drains these at startu
 then stops, whereas runtime routes serve agents continuously.
 
 The keyset paging itself is NOT here — it's clients/sync_client.py, because ingest
-needs it too (diff_poller walks /sync/lab_result; service/{staff,ventilator} source
+needs it too (diff_poller walks /sync/lab_result; input_transform/{staff,ventilator} source
 entities the HIS exposes nowhere else). This package is only the initial-sync API.
 """
 

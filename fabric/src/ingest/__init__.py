@@ -11,5 +11,5 @@ hospilot-backend to consume. Publishing itself lives in messaging/, not here; th
 outbound write leg lives in writeback/.
 
 Background subsystem started in main.py's lifespan (only when Kafka is configured).
-Not part of the request-driven service layer; depends downward on service.* + clients.*
+Not part of the request-driven read layer; depends downward on input_transform.* + clients.*
 """

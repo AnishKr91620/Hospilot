@@ -21,7 +21,7 @@ from aiokafka import AIOKafkaConsumer
 from clients import fhir_client as fc
 from config import settings
 from messaging import data_events as kafka
-from service import transform as tx
+from input_transform import transform as tx
 
 logger = logging.getLogger("kafka_consumer")
 

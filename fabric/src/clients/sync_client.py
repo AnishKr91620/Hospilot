@@ -11,7 +11,7 @@ Shares the same bearer key/auth as the plain-REST client (reuses its
 Two callers with different needs, hence two functions:
   • fetch_page — one page. Used by initial_sync/ for the initial-sync API (the backend walks
     the pages itself) and by ingest/diff_poller for the lab_result keyset loop.
-  • fetch_all  — every page, concatenated. Used by service/{staff,ventilator} to
+  • fetch_all  — every page, concatenated. Used by input_transform/{staff,ventilator} to
     source entities the HIS exposes on no other endpoint.
 """
 

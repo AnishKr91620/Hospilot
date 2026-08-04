@@ -13,7 +13,7 @@ from fhir.resources.location import Location
 from fhir.resources.patient import Patient
 
 from fhirgw.mappers import location as loc_map, encounter as enc_map, observation as obs_map
-from service import transform as tx
+from input_transform import transform as tx
 
 
 class _Obs:

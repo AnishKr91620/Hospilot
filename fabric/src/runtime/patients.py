@@ -11,7 +11,7 @@ module as the PHI boundary:
     enumerate patients by phone number
 
 Hospilot itself stores no patient table; the demographics pass through from the HIS
-and are not persisted here. See service/transform.py::patient().
+and are not persisted here. See input_transform/transform.py::patient().
 
 Also holds patient registration: Fabric only queues a request for the hospital's
 staff worklist — it never creates a patient upstream.
@@ -28,7 +28,7 @@ from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 
 from runtime._common import _or_404
-from service import clinical
+from input_transform import clinical
 
 logger = logging.getLogger("normalized")
 router = APIRouter()

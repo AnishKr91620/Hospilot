@@ -2,7 +2,7 @@
 Round-trip identity + FHIR validity for the pilot mappers.
 
 The agent contract is preserved because `to_internal(to_fhir(x)) == x` for the exact
-internal projection shapes Fabric serves (src/service/transform.py). Validity is
+internal projection shapes Fabric serves (src/input_transform/transform.py). Validity is
 checked by re-parsing each resource's serialized JSON through its fhir.resources model.
 
 Covers the location, encounter and observation mappers that transform.py uses live,

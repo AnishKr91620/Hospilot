@@ -10,7 +10,7 @@ from fastapi import APIRouter, Query
 
 from runtime._common import _or_404
 from clients import fhir_client as fc
-from service import clinical
+from input_transform import clinical
 from writeback import proposals
 
 router = APIRouter()

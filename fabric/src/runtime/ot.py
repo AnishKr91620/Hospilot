@@ -3,12 +3,12 @@
 Deliberately small. ot_room, ot_room_status, ot_schedule and ot_surgery are all
 streamed to hospilot-backend and cached, so agents read theatre state from the internal DB;
 those HTTP reads existed with no callers and were removed. What's left is the one
-uncached table and the reschedule write. See service/ot.py.
+uncached table and the reschedule write. See input_transform/ot.py.
 """
 
 from fastapi import APIRouter
 
-from service import ot as ot_svc
+from input_transform import ot as ot_svc
 from writeback import proposals
 
 router = APIRouter()

@@ -1,4 +1,4 @@
-"""Lab service layer.
+"""Lab reads.
 
 Two data access patterns:
 
@@ -19,7 +19,7 @@ import logging
 from clients import fhir_client as fc
 from clients import rest_client as rc
 from config import settings
-from service import transform as tx
+from input_transform import transform as tx
 
 logger = logging.getLogger("lab_service")
 
