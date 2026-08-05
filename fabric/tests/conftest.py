@@ -1,6 +1,7 @@
 """
-Test bootstrap. Fabric runs with `src/` as the import root; pyproject also sets
-pythonpath=["src"]. Settings all have safe defaults, so no real upstreams needed.
+Test bootstrap. Fabric runs with `src/` as the import root, so put it on sys.path
+here -- this is the only thing that makes the flat imports work under pytest.
+Settings all have safe defaults, so no real upstreams needed.
 """
 
 import os

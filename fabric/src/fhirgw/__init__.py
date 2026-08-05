@@ -1,9 +1,10 @@
 """
 fhirgw — Hospilot's in-app FHIR gateway (canonical FHIR R5 / 5.0.0).
 
-Named `fhirgw` (not `fhir`) on purpose: `src/` is the import root (pyproject sets
-pythonpath=["src"]), so a package literally named `fhir` would shadow the
-`fhir.resources` library and break `from fhir.resources... import ...`.
+Named `fhirgw` (not `fhir`) on purpose: `src/` is the import root (uvicorn runs with
+--app-dir src; tests/conftest.py puts it on sys.path), so a package literally named
+`fhir` would shadow the `fhir.resources` library and break
+`from fhir.resources... import ...`.
 
 Vocabulary and mapping only — no I/O, no transport, no queue:
   terminology.py   — code systems + LOINC/status/class/interpretation maps
