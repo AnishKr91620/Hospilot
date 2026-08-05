@@ -213,7 +213,8 @@ Requires Python 3.11+ (CI runs 3.12).
 ```bash
 cd fabric
 python -m venv .venv && source .venv/bin/activate
-pip install -r requirements-dev.txt      # requirements.txt + pytest
+pip install -r requirements.txt
+pip install pytest                       # not in requirements.txt: kept out of the image
 cp .env.example .env                     # defaults work against a local HIS on :3001
 
 python -m pytest                         # 72 tests, no network or broker needed
